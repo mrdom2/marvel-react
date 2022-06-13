@@ -26,7 +26,7 @@ class MarvelService {
     _transformCharacter = (myChar) => {
         return {
             name: myChar.name,
-            decription: myChar.desciption,
+            decription: myChar.description ? `${myChar.description.slice(0, 210)}...` : 'No desciption for current character',
             thumbnail: `${myChar.thumbnail.path}.${myChar.thumbnail.extension}`,
             homepage: myChar.urls[0].url,
             wiki: myChar.urls[1].url
@@ -35,3 +35,4 @@ class MarvelService {
 }
 
 export default MarvelService;
+
