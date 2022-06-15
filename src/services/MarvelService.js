@@ -1,5 +1,3 @@
-
-
 class MarvelService {
     _apiBase = "https://gateway.marvel.com:443/v1/public/";
     _apiKey = "apikey=9ad839a9c88d121575614a5606a17237";
@@ -25,8 +23,9 @@ class MarvelService {
 
     _transformCharacter = (myChar) => {
         return {
+            id: myChar.id,
             name: myChar.name,
-            decription: myChar.description ? `${myChar.description.slice(0, 210)}...` : 'No desciption for current character',
+            description: myChar.description ? `${myChar.description.slice(0, 210)}...` : 'No desciption for current character',
             thumbnail: `${myChar.thumbnail.path}.${myChar.thumbnail.extension}`,
             homepage: myChar.urls[0].url,
             wiki: myChar.urls[1].url

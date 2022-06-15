@@ -6,14 +6,7 @@ import MarvelService from '../../services/MarvelService';
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 
-
-
 class RandomChar extends Component {
-    constructor(props) {
-        super(props);
-        this.updateChar();
-    }
-
     state = {
         char: {},
         loading: true,
@@ -45,6 +38,9 @@ class RandomChar extends Component {
             .catch(this.onError);
     }
 
+    componentDidMount() {
+        this.updateChar();
+    }
 
     render() {
         const { char, loading, error } = this.state;
@@ -67,7 +63,7 @@ class RandomChar extends Component {
                         Or choose another one
                     </p>
                     <button className="button button__main">
-                        <div className="inner">try it</div>
+                        <div className="inner" onClick={this.updateChar}>try it</div>
                     </button>
                     <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
                 </div>
@@ -77,21 +73,26 @@ class RandomChar extends Component {
 }
 
 const View = ({ char }) => {
-    const { name, desciption, thumbnail, homepage, wiki } = char;
+    const { name, description, thumbnail, homepage, wiki } = char;
+
+    let imgStyle = { 'objectFit': 'cover' };
+    if (thumbnail.includes("image_not_available")) {
+        imgStyle = { 'objectFit': 'unset' };
+    }
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" />
+            <img src={thumbnail} className="randomchar__img" alt="Random character" style={imgStyle} />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">
-                    {desciption}
+                    {description}
                 </p>
                 <div className="randomchar__btns">
-                    <a href={homepage} target="_blank" className="button button__main">
+                    <a href={homepage} target="_blank" rel="noreferrer" className="button button__main">
                         <div className="inner">homepage</div>
                     </a>
-                    <a href={wiki} target="_blank" className="button button__secondary">
+                    <a href={wiki} target="_blank" rel="noreferrer" className="button button__secondary">
                         <div className="inner">Wiki</div>
                     </a>
                 </div>
