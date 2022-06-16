@@ -13,11 +13,24 @@ class RandomChar extends Component {
         error: false
     }
 
+    marvelService = new MarvelService();
+
     onCharLoaded = (char) => {
         this.setState({
             char,
             loading: false
         });
+    }
+
+    onCharLoading = () => {
+        this.setState({
+            loading: true,
+            error: false
+        })
+    }
+
+    componentDidMount() {
+        this.updateChar();
     }
 
     onError = () => {
@@ -27,19 +40,13 @@ class RandomChar extends Component {
         });
     }
 
-    marvelService = new MarvelService();
-
     updateChar = () => {
         const randomId = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-        // 1011070
+        this.onCharLoading();
         this.marvelService
             .getSingleCharacter(randomId)
             .then(this.onCharLoaded)
             .catch(this.onError);
-    }
-
-    componentDidMount() {
-        this.updateChar();
     }
 
     render() {
@@ -47,7 +54,6 @@ class RandomChar extends Component {
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null;
         const content = !(loading || error) ? <View char={char} /> : null;
-
 
         return (
             <div className="randomchar">
